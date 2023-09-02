@@ -5,8 +5,7 @@ IP = "192.168.1.104"
 PORT = "8000"
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace with a secure secret key
-
+app.secret_key = 'your_secret_key'  
 
 # Load user data from JSON file
 with open('users.json', 'r') as file:
@@ -51,7 +50,7 @@ def dashboard():
         test_cases = questions[question_id]['test_cases']
 
         # Run the code against test cases
-        results = True
+        results = True # temp
 
         # Update user scores based on the results
         if all(results):

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Challenge</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Code Challenge</h1>
+    <form id="code-form" method="POST">
+        <div class="question-selector">
+            <label for="question_id">Select a Question:</label>
+            <select name="question_id" id="question_id">
+                {% for question in questions %}
+                    <option value="{{ loop.index0 }}">{{ question['title'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="code-input">
+            <label for="code">Enter Your Python Code:</label>
+            <textarea name="code" id="code" rows="10" cols="50" required></textarea>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    <div class="results">
+        <h2>Test Results:</h2>
+        <ul id="test-results"></ul>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#code-form").submit(function (event) {
+                event.preventDefault();
+                const formData = $(this).serialize();
+                $.post("/", formData, function (data) {
+                    const results = data.map((result, index) => {
+                        return `<li>Test Case ${index + 1}: ${result ? 'Passed' : 'Failed'}</li>`;
+                    });
+                    $("#test-results").html(results.join(''));
+                });
+            });
+        });
+    </script>
+</body>
+</html>
